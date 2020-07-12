@@ -1,0 +1,124 @@
+/* GENERIC STYLE SHEET
+
+*/
+
+/* MAIN STYLES */
+BODY.admin {
+	margin-top: 0px;
+	margin-left: 0px;
+	font-family: Arial,Helvetica,sans-serif;
+	background-color: #FFFFFF;
+}
+
+BODY {
+	position:absolute;
+	top:0px;
+	left:0px;
+	margin:0px;
+	padding:0px;
+	margin-top: 0px;
+	margin-left: 0px;
+	font-family: Arial,Helvetica,sans-serif;
+	background-color: #000000;
+
+}
+
+h1, h2 {
+	font-family: Arial,Helvetica,sans-serif;
+	text-align: left;
+}
+
+h3, h4 {
+	font-family: Arial,Helvetica,sans-serif;
+	margin-left: 20px;
+}
+
+h5, h6 {
+	font-family: Arial,Helvetica,sans-serif;
+	text-align: Left;
+	margin-left: 35px;
+}
+
+P {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-left: 32px;
+	margin-right: 12px;
+}
+li {
+	font-family: Arial, Helvetica, sans-serif;
+}
+tr, td, th {
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 14px;
+}
+
+a:link,a:active,a:visited { color : #006699; }
+a:hover		{ text-decoration: underline; color : #DD6900; }
+hr { height: 0px; color: #CCCCCC}
+
+/* TABLE STYLES Main Page Color*/
+table.form_main { background-color: #FFFFFF; }
+td.form_main { background-color: #FFFFFF; }
+/* NEW TABLE STYLE FOR Vertical Layout Control Secondary Layout Color(Light Blue)*/
+table.color2_layout { background-color: #a6b3cf; }
+td.color2_layout { background-color: #a6b3cf; }
+
+/* for alternating listings in the admin area*/
+td.row1_0	{ background-color: #009900; }
+td.row2_0	{ background-color: #CCFFCC; }
+td.row3_0	{ background-color: #99CC99; }
+.adminListingLeft_0 {
+color: #FFFFFF;
+background-color : transparent;
+}
+
+td.row1_1	{ background-color: #006699; }
+td.row2_1	{ background-color: #DEE3E7; }
+td.row3_1	{ background-color: #D1D7DC; }
+.adminListingLeft_1 {
+color: #FFFFFF;
+background-color : transparent;
+}
+
+/* for alternating image listings */
+td.image_row_0	{ background-color: #D6D3EE; }
+td.image_row_1	{ background-color: #FFFFFF; }
+
+/* for alternating search result listings */
+td.search_row_0	{ background-color: #D6D3EE; }
+td.search_row_1	{ background-color: #FFFFFF; }
+
+/* FORM STYLES */
+INPUT, select, textarea, text {
+border: 1px #006699 groove;
+background-color: #FFFFFF; 
+font-family: Arial, Helvetica, sans-serif; 
+font-size: 11px;
+color: #000000;
+border-color: #000000;
+border-style: solid;
+}
+
+
+/* TEXT STYLES */
+.small { font-size : 10px; color : #ffffff;}
+
+.required {
+color: #FF0000;
+background-color : transparent;
+}
+
+.lightText {
+color: #FFFFFF;
+background-color : transparent;
+}
+
+
+/* TEMPLATE EDITOR STYLES */
+td.templateEditorHead	{ background-color: #D6D3EE; }
+td.templateEditorNew	{ background-color: #EEEEFF; }
+
+
+
+
+

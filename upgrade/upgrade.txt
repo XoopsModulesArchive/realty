@@ -1,0 +1,8 @@
+Upgrade Instructions.
+
+1. Backup your existing database and site.
+2. Upload the new version of open-realty to your site.
+3. Edit the common.php file, to point to your database.
+4. Run the appropriate upgrade script from this directory.
+5. Delete the upgrade scripts and the configurator.php file.
+6. You should be good to go, make any template changes etc, that you want.

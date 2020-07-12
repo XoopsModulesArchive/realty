@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+<H3>4.4.4  <code>CHECK TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX571"></A>
+
+</P>
+
+<pre>
+CHECK TABLE tbl_name[,tbl_name...] [option [option...]]
+
+option = QUICK | FAST | MEDIUM | EXTENDED | CHANGED
+</pre>
+
+<P>
+<code>CHECK TABLE</code> works only on <code>MyISAM</code> and <code>InnoDB</code> tables. On
+<code>MyISAM</code> tables it's the same thing as running <code>myisamchk -m
+table_name</code> on the table.
+
+</P>
+<P>
+If you don't specify any option <code>MEDIUM</code> is used.
+
+</P>
+<P>
+Checks the table(s) for errors. For <code>MyISAM</code> tables the key statistics
+are updated. The command returns a table with the following columns:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Column</strong> </TD><TD> <strong>Value</strong>
+</TD></TR>
+<TR><TD>Table </TD><TD> Table name.
+</TD></TR>
+<TR><TD>Op </TD><TD> Always ``check''.
+</TD></TR>
+<TR><TD>Msg_type </TD><TD> One of <code>status</code>, <code>error</code>, <code>info</code>, or <code>warning</code>.
+</TD></TR>
+<TR><TD>Msg_text </TD><TD> The message.
+</TD></TR>
+</TABLE>
+
+<P>
+Note that you can get many rows of information for each checked table. The
+last row will be of <code>Msg_type status</code> and should normally be
+<code>OK</code>.  If you don't get <code>OK</code>, or <code>Table is already up to
+date</code> you should normally run a repair of the table. See section <A HREF="Table_maintenance.html">4.4.6  Using <code>myisamchk</code> for Table Maintenance and Crash Recovery</A>. <code>Table is already up to date</code> means that the table the
+given <code>TYPE</code> told MySQL that there wasn't any need to check the
+table.
+
+</P>
+<P>
+The different check types stand for the following:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Type</strong> </TD><TD> <strong>Meaning</strong>
+</TD></TR>
+<TR><TD><code>QUICK</code> </TD><TD> Don't scan the rows to check for wrong links.
+</TD></TR>
+<TR><TD><code>FAST</code> </TD><TD> Only check tables which haven't been closed properly.
+</TD></TR>
+<TR><TD><code>CHANGED</code> </TD><TD> Only check tables which have been changed since last check or haven't been closed properly.
+</TD></TR>
+<TR><TD><code>MEDIUM</code> </TD><TD> Scan rows to verify that deleted links are okay. This also calculates a key checksum for the rows and verifies this with a calculated checksum for the keys.
+</TD></TR>
+<TR><TD><code>EXTENDED</code> </TD><TD> Do a full key lookup for all keys for each row.  This ensures that the table is 100% consistent, but will take a long time!
+</TD></TR>
+</TABLE>
+
+<P>
+For dynamically sized <code>MyISAM</code> tables a started check will always
+do a <code>MEDIUM</code> check. For statically sized rows we skip the row scan
+for <code>QUICK</code> and <code>FAST</code> as the rows are very seldom corrupted.
+
+</P>
+<P>
+You can combine check options as in:
+
+</P>
+
+<pre>
+CHECK TABLE test_table FAST QUICK;
+</pre>
+
+<P>
+Which would simply do a quick check on the table to see whether it was
+closed properly.
+
+</P>
+<P>
+<strong>Note</strong>: that in some case <code>CHECK TABLE</code> will change the
+table!  This happens if the table is marked as 'corrupted' or 'not
+closed properly' but <code>CHECK TABLE</code> didn't find any problems in the
+table.  In this case <code>CHECK TABLE</code> will mark the table as okay.
+
+</P>
+<P>
+If a table is corrupted, then it's most likely that the problem is in
+the indexes and not in the data part.  All of the above check types
+checks the indexes thoroughly and should thus find most errors.
+
+</P>
+<P>
+If you just want to check a table that you assume is okay, you should use
+no check options or the <code>QUICK</code> option. The latter should be used
+when you are in a hurry and can take the very small risk that
+<code>QUICK</code> didn't find an error in the datafile. (In most cases
+MySQL should find, under normal usage, any error in the data
+file. If this happens then the table will be marked as 'corrupted',
+in which case the table can't be used until it's repaired.)
+
+</P>
+<P>
+<code>FAST</code> and <code>CHANGED</code> are mostly intended to be used from a
+script (for example to be executed from <code>cron</code>) if you want to check your
+table from time to time. In most cases you <code>FAST</code> is to be prefered
+over <code>CHANGED</code>.  (The only case when it isn't is when you suspect a
+bug you have found a bug in the <code>MyISAM</code> code.)
+
+</P>
+<P>
+<code>EXTENDED</code> is only to be used after you have run a normal check but
+still get strange errors from a table when MySQL tries to
+update a row or find a row by key (this is very unlikely if a
+normal check has succeeded!).
+
+</P>
+<P>
+Some things reported by <code>CHECK TABLE</code> can't be corrected automatically:
+
+</P>
+
+<ul>
+<LI>
+
+<code>Found row where the auto_increment column has the value 0</code>.
+
+This means that you have in the table a row where the
+<code>AUTO_INCREMENT</code> index column contains the value 0.
+(It's possible to create a row where the <code>AUTO_INCREMENT</code> column is 0 by
+explicitly setting the column to 0 with an <code>UPDATE</code> statement.)
+
+This isn't an error in itself, but could cause trouble if you decide to
+dump the table and restore it or do an <code>ALTER TABLE</code> on the
+table. In this case the <code>AUTO_INCREMENT</code> column will change value,
+according to the rules of <code>AUTO_INCREMENT</code> columns, which could cause
+problems such as a duplicate key error.
+
+To get rid of the warning, just execute an <code>UPDATE</code> statement
+to set the column to some other value than 0.
+</ul>
+
+
+
+
+
+</body>
+</html>

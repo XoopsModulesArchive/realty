@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+
+<H3>4.4.5  <code>REPAIR TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX572"></A>
+
+</P>
+
+<pre>
+REPAIR [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name[,tbl_name...] [QUICK] [EXTENDED] [USE_FRM]
+</pre>
+
+<P>
+<code>REPAIR TABLE</code> works only on <code>MyISAM</code> tables and is the same
+as running <code>myisamchk -r table_name</code> on the table.
+
+</P>
+<P>
+Normally you should never have to run this command, but if disaster strikes
+you are very likely to get back all your data from a MyISAM table with
+<code>REPAIR TABLE</code>. If your tables get corrupted a lot you should
+try to find the reason for this! See section <A HREF="Crashing.html">A.4.1  What To Do If MySQL Keeps Crashing</A>. See section <A HREF="MyISAM_table_problems.html">7.1.3  <code>MyISAM</code> Table Problems</A>.
+
+</P>
+<P>
+<code>REPAIR TABLE</code> repairs a possible corrupted table. The command returns a
+table with the following columns:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Column</strong> </TD><TD> <strong>Value</strong>
+</TD></TR>
+<TR><TD>Table </TD><TD> Table name
+</TD></TR>
+<TR><TD>Op </TD><TD> Always ``repair''
+</TD></TR>
+<TR><TD>Msg_type </TD><TD> One of <code>status</code>, <code>error</code>, <code>info</code> or <code>warning</code>.
+</TD></TR>
+<TR><TD>Msg_text </TD><TD> The message.
+</TD></TR>
+</TABLE>
+
+<P>
+Note that you can get many rows of information for each repaired
+table. The last one row will be of <code>Msg_type status</code> and should
+normally be <code>OK</code>.  If you don't get <code>OK</code>, you should try
+repairing the table with <code>myisamchk -o</code>, as <code>REPAIR TABLE</code>
+does not yet implement all the options of <code>myisamchk</code>. In the near
+future, we will make it more flexible.
+
+</P>
+<P>
+If <code>QUICK</code> is given then MySQL will try to do a
+<code>REPAIR</code> of only the index tree.
+
+</P>
+<P>
+If you use <code>EXTENDED</code> then MySQL will create the index row
+by row instead of creating one index at a time with sorting; this may be
+better than sorting on fixed-length keys if you have long <code>CHAR</code>
+keys that compress very well.  This type of repair is like that done by
+<code>myisamchk --safe-recover</code>.
+
+</P>
+<P>
+As of <code>MySQL</code> 4.0.2, there is a <code>USE_FRM</code> mode for <code>REPAIR</code>.
+Use it if the <tt>`.MYI'</tt> file is missing or if its header is corrupted.
+In this mode MySQL will recreate the table, using information from the
+<tt>`.frm'</tt> file. This kind of repair cannot be done with <code>myisamchk</code>.
+
+</P>
+<P>
+<strong>Warning:</strong> If <code>mysqld</code> dies during a <code>REPAIR TABLE</code>,
+it's essential that you do at once another <code>REPAIR</code> on the table
+before executing any other commands on it. (It's of course always good
+to start with a backup).  In the worst case you can have a new clean
+index file without information about the data file and when the next
+command you do may overwrite the data file.  This is not a likely, but
+possible scenario.
+
+</P>
+<P>
+Strictly before MySQL 4.1.1, <code>REPAIR</code> commands are not written
+to the binary log. Since MySQL 4.1.1 they are written to the binary
+log unless the optional <code>NO_WRITE_TO_BINLOG</code> keyword 
+(or its alias <code>LOCAL</code>) was used.
+
+</P>
+
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+<H3>4.5.2  <code>ANALYZE TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX599"></A>
+
+</P>
+
+<pre>
+ANALYZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name[,tbl_name...]
+</pre>
+
+<P>
+Analyse and store the key distribution for the table.  During the
+analysis, the table is locked with a read lock.  This works on
+<code>MyISAM</code> and <code>BDB</code> tables.
+
+</P>
+<P>
+This is equivalent to running <code>myisamchk -a</code> on the table.
+
+</P>
+<P>
+MySQL uses the stored key distribution to decide in which order
+tables should be joined when one does a join on something else than a
+constant.
+
+</P>
+<P>
+The command returns a table with the following columns:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Column</strong> </TD><TD> <strong>Value</strong>
+</TD></TR>
+<TR><TD>Table </TD><TD> Table name
+</TD></TR>
+<TR><TD>Op </TD><TD> Always ``analyze''
+</TD></TR>
+<TR><TD>Msg_type </TD><TD> One of <code>status</code>, <code>error</code>, <code>info</code> or <code>warning</code>.
+</TD></TR>
+<TR><TD>Msg_text </TD><TD> The message.
+</TD></TR>
+</TABLE>
+
+<P>
+You can check the stored key distribution with the <code>SHOW INDEX</code> command.
+See section <A HREF="SHOW_DATABASE_INFO.html">4.5.7.1  Retrieving information about Database, Tables, Columns, and Indexes</A>.
+
+</P>
+<P>
+If the table hasn't changed since the last <code>ANALYZE TABLE</code> command,
+the table will not be analysed again.
+
+</P>
+<P>
+Strictly before MySQL 4.1.1, <code>ANALYZE</code> commands are not written
+to the binary log. Since MySQL 4.1.1 they are written to the binary
+log unless the optional <code>NO_WRITE_TO_BINLOG</code> keyword 
+(or its alias <code>LOCAL</code>) was used.
+
+</P>
+
+
+
+
+</body>
+</html>

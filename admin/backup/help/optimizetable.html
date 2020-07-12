@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+<H3>4.5.1  <code>OPTIMIZE TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX596"></A>
+
+</P>
+<P>
+<A NAME="IDX597"></A>
+<A NAME="IDX598"></A>
+
+</P>
+
+<pre>
+OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name[,tbl_name]...
+</pre>
+
+<P>
+<code>OPTIMIZE TABLE</code> should be used if you have deleted a large part of a
+table or if you have made many changes to a table with variable-length rows
+(tables that have <code>VARCHAR</code>, <code>BLOB</code>, or <code>TEXT</code> columns).
+Deleted records are maintained in a linked list and subsequent <code>INSERT</code>
+operations reuse old record positions. You can use <code>OPTIMIZE TABLE</code> to
+reclaim the unused space and to defragment the datafile.
+
+</P>
+<P>
+In most setups you don't have to run <code>OPTIMIZE TABLE</code> at all.  Even
+if you do a lot of updates to variable length rows it's not likely that
+you need to do this more than once a month/week and only on certain
+tables.
+
+</P>
+<P>
+For the moment, <code>OPTIMIZE TABLE</code> works only on <code>MyISAM</code> and
+<code>BDB</code> tables. For <code>BDB</code> tables, <code>OPTIMIZE TABLE</code> is
+currently mapped to <code>ANALYZE TABLE</code>.
+See section <A HREF="ANALYZE_TABLE.html">4.5.2  <code>ANALYZE TABLE</code> Syntax</A>.
+
+</P>
+<P>
+You can get <code>OPTIMIZE TABLE</code> to work on other table types by starting
+<code>mysqld</code> with <code>--skip-new</code> or <code>--safe-mode</code>, but in this
+case <code>OPTIMIZE TABLE</code> is just mapped to <code>ALTER TABLE</code>.
+
+</P>
+<P>
+<code>OPTIMIZE TABLE</code> works the following way:
+
+<ul>
+<LI>
+
+If the table has deleted or split rows, repair the table.
+<LI>
+
+If the index pages are not sorted, sort them.
+<LI>
+
+If the statistics are not up to date (and the repair couldn't be done
+by sorting the index), update them.
+</ul>
+
+<P>
+Note that the table is locked during the time <code>OPTIMIZE TABLE</code> is
+running!
+
+</P>
+<P>
+Strictly before MySQL 4.1.1, <code>OPTIMIZE</code> commands are not written
+to the binary log. Since MySQL 4.1.1 they are written to the binary
+log unless the optional <code>NO_WRITE_TO_BINLOG</code> keyword 
+(or its alias <code>LOCAL</code>) was used.
+
+</P>
+
+
+
+
+</body>
+</html>

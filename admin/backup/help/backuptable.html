@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+<H3>4.4.2  <code>BACKUP TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX568"></A>
+
+</P>
+<P>
+<A NAME="IDX569"></A>
+
+</P>
+
+<pre>
+BACKUP TABLE tbl_name[,tbl_name...] TO '/path/to/backup/directory'
+</pre>
+
+<P>
+Copies to the backup directory the minimum number of table files needed
+to restore the table, after flushing any buffered changes to disk. Currently
+works only for <code>MyISAM</code> tables.
+For <code>MyISAM</code> tables, copies <tt>`.frm'</tt> (definition)  and
+<tt>`.MYD'</tt> (data) files. The index file can be rebuilt from those two.
+
+</P>
+<P>
+Before using this command, please see section <A HREF="Backup.html">4.4.1  Database Backups</A>.
+
+</P>
+<P>
+During the backup, a read lock will be held for each table, one at time,
+as they are being backed up. If you want to back up several tables as
+a snapshot, you must first issue <code>LOCK TABLES</code> obtaining a read
+lock for each table in the group.
+
+</P>
+<P>
+The command returns a table with the following columns:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Column</strong> </TD><TD> <strong>Value</strong>
+</TD></TR>
+<TR><TD>Table </TD><TD> Table name
+</TD></TR>
+<TR><TD>Op </TD><TD> Always ``backup''
+</TD></TR>
+<TR><TD>Msg_type </TD><TD> One of <code>status</code>, <code>error</code>, <code>info</code> or <code>warning</code>.
+</TD></TR>
+<TR><TD>Msg_text </TD><TD> The message.
+</TD></TR>
+</TABLE>
+
+<P>
+Note that <code>BACKUP TABLE</code> is only available in MySQL
+version 3.23.25 and later.
+
+</P>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?php
+
+	global $config, $lang;
+	function getmicrotime()
+	{
+		list($usec, $sec) = explode(" ",microtime());
+		return ((float)$usec + (float)$sec);
+	} 
+	$start_time = getmicrotime()
+
+
+?>
+
+									<?php
+						
+							global $lang;
+							if ($admin_privs == "yes" || $editForms == "yes")
+							{
+								// if the user has either admin or edit forms privs
+								echo "<b>$lang[admin_menu_regular_options]</b> | ";
+							} // end if
+							?>
+							<a href="<?=$config['baseurl']?>/admin/add_auto.php">Add A Vehicle</a>|<a href="<?=$config['baseurl']?>/admin/edit_my_auto.php">Edit My Vehicles</a> |<a href="<?php echo $config[baseurl]; ?>/admin/agent_signup.php"><?php echo "$lang[menu_new_user_account]"; ?></a> | <a href="<?php echo $config[baseurl]; ?>/admin/add_listing.php"><?php echo "$lang[admin_menu_add_a_listing]"; ?></a> | <a href="<?php echo $config[baseurl]; ?>/admin/edit_my_account.php"><?php echo "$lang[admin_menu_edit_my_account]"; ?></a> | <a href="<?php echo $config[baseurl]; ?>/admin/edit_my_listings.php"><?php echo "$lang[admin_menu_edit_my_edit_my_listings]"; ?></a> | <a href="<?php echo $config[baseurl]; ?>/admin/logout.php"><?php echo "$lang[admin_menu_logout]"; ?></a> | <a href="<?php echo $config[baseurl]; ?>/index.php"><?php echo "$lang[menu_home]" ?></a>
+				<br><br>
+<b>Vehicle Menu</b> | <a href="<?=$config['baseurl']?>/admin/auto_editor.php">Edit Vehicle Template</a>|<a href="<?=$config['baseurl']?>/admin/auto_edit.php">Edit Vehicles</a> | <a href="<?=$config['baseurl']?>/admin/expired.php">Expired Listings</a><br><br>	
+						
+						<?php
+						// admin options
+						global $editForms, $viewLogs, $admin_privs;
+						if ($editForms == "yes")
+						{
+							// if the user can edit forms
+							echo "<div align=\"Left\" class=\"small\"><b>$lang[admin_menu_form_editor_options]</b> | <a href=\"$config[baseurl]/admin/user_form_editor.php?edit_isAgent=no\">$lang[admin_menu_edit_member_form]</a> | <a href=\"$config[baseurl]/admin/user_form_editor.php?edit_isAgent=yes\">$lang[admin_menu_edit_agent_form]</a> | <a href=\"$config[baseurl]/admin/template_editor.php\">$lang[admin_menu_edit_listings_template]</a></div><br>";
+						} // end if
+						
+						if ($admin_privs == "yes")
+						{
+							// if the user has admin privs
+							echo "<div align=\"left\" class=\"small\"><b>$lang[admin_menu_admin_options]</b> | <a href=\"$config[baseurl]/admin/user_edit.php?edit_isAgent=no\">$lang[admin_menu_edit_members]</a> | <a href=\"$config[baseurl]/admin/user_edit.php?edit_isAgent=yes\">$lang[admin_menu_edit_agents]</a> | <a href=\"$config[baseurl]/admin/listings_edit.php\">$lang[admin_menu_edit_listings]</a> | <a href=\"$config[baseurl]/admin/add_user.php?edit_isAgent=no\">$lang[member_editor_new]</a> | <a href=\"$config[baseurl]/admin/add_user.php?edit_isAgent=yes\">$lang[agent_editor_new]</a>";
+						} // end if
+						
+						if ($admin_privs == "yes" AND $config[moderate_listings] == "yes")
+						{
+							// if the user has admin privs and moderation is turned on
+							echo " | <a href=\"$config[baseurl]/admin/moderation_queue.php\">$lang[admin_listings_moderation_queue]</a>";
+						}
+						
+						if ($viewLogs == "yes")
+						{
+							echo " | <a href=\"$config[baseurl]/admin/log_view.php\">$lang[log_view_activity_logs]</a>";
+						} // end if
+																	
+?>
+<hr>

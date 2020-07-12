@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title>Untitled</title>
+</head>
+
+<body>
+<H3>4.4.3  <code>RESTORE TABLE</code> Syntax</H3>
+
+<P>
+<A NAME="IDX570"></A>
+
+</P>
+
+
+<pre>
+RESTORE TABLE tbl_name[,tbl_name...] FROM '/path/to/backup/directory'
+</pre>
+
+<P>
+Restores the table(s) from the backup that was made with
+<code>BACKUP TABLE</code>. Existing tables will not be overwritten; if you
+try to restore over an existing table, you will get an error. Restoring
+will take longer than backing up due to the need to rebuild the index. The
+more keys you have, the longer it will take. Just as <code>BACKUP TABLE</code>,
+<code>RESTORE TABLE</code> currently works only for <code>MyISAM</code> tables.
+
+</P>
+<P>
+The command returns a table with the following columns:
+
+</P>
+<TABLE BORDER WIDTH="100%">
+<TR><TD><strong>Column</strong> </TD><TD> <strong>Value</strong>
+</TD></TR>
+<TR><TD>Table </TD><TD> Table name
+</TD></TR>
+<TR><TD>Op </TD><TD> Always ``restore''
+</TD></TR>
+<TR><TD>Msg_type </TD><TD> One of <code>status</code>, <code>error</code>, <code>info</code> or <code>warning</code>.
+</TD></TR>
+<TR><TD>Msg_text </TD><TD> The message.
+</TD></TR>
+</TABLE>
+
+
+</body>
+</html>
